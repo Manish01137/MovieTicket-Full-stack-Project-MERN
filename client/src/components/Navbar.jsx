@@ -1,9 +1,10 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { assets } from '../assets/assets'
-import { Menu, Search, X } from 'lucide-react'
+import { Menu, Search, TicketPlus, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useClerk, UserButton, useUser } from '@clerk/clerk-react'
 
 const navLinks = [
   { name: 'Home', path: '/' },
@@ -16,6 +17,9 @@ const navLinks = [
 const Navbar = () => {
   const [open, setOpen] = useState(false)
 
+  const { user } = useUser()
+  const { openSignIn } = useClerk()   // fixed
+  const navigate = useNavigate()
   return (
     <nav className="fixed top-0 left-0 w-full z-50">
       {/* Glass Background */}
@@ -45,10 +49,23 @@ const Navbar = () => {
           <div className="flex items-center gap-4">
             <Search className="hidden md:block w-5 h-5 text-white/80 hover:text-white cursor-pointer transition" />
 
-            <button className="px-5 py-2 rounded-full bg-primary text-black font-medium
-              hover:bg-primary-dull hover:scale-105 transition-all duration-300">
-              Login
-            </button>
+            {
+              !user ? (
+                <button
+                  onClick={openSignIn}
+                  className="px-5 py-2 rounded-full bg-primary text-black font-medium
+                  hover:bg-primary-dull hover:scale-105 transition-all duration-300"
+                >
+                  Login
+                </button>
+              ) : (
+                <UserButton>
+                  <UserButton.MenuItems>
+                    <UserButton.Action label="My Booking" labelIcon={<TicketPlus width={15} onClick={()=> navigate('/my-bookings')}/>}/>
+                  </UserButton.MenuItems>
+                </UserButton>
+              )
+            }
 
             {/* Mobile Menu Icon */}
             <Menu

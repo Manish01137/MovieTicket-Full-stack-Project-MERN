@@ -1,9 +1,22 @@
 /* eslint-disable no-unused-vars */
-import React from 'react'
+import React,{useState} from 'react'
 import BlurCircle from './BlurCircle'
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
+import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
 
 const DateSelect = ({ dateTime, id }) => {
+  const navigate = useNavigate();
+  const [selected,setSelected] = useState(null)
+
+  const onBookHandler = () =>{
+    if(!selected){
+      return toast('Please select a date')
+    }
+    navigate(`/movies/${id}/${selected}`)
+    scrollTo(0,0)
+
+  }
   return (
     <div id='dateSelect' className='pt-30'>
       <div
@@ -22,11 +35,11 @@ const DateSelect = ({ dateTime, id }) => {
               gap-4'
             >
               {Object.keys(dateTime).map((date) => (
-                <button
+                <button onClick={()=> setSelected(date)}
                   key={date}
-                  className='flex flex-col items-center
+                  className={`flex flex-col items-center
                   justify-center h-14 w-14 aspect-square rounded-2xl
-                  cursor-pointer'
+                  cursor-pointer ${selected === date ? "bg-primary text-white" : "border border-primary/70"}`}
                 >
                   <span>{new Date(date).getDate()}</span>
                   <span>
@@ -41,7 +54,7 @@ const DateSelect = ({ dateTime, id }) => {
           </div>
         </div>
 
-        <button
+        <button onClick={onBookHandler}
           className='bg-primary text-white px-8 py-2 mt-6 rounded-2xl
           hover:bg-primary/90 transition-all cursor-pointer'
         >

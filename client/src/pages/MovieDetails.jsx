@@ -6,6 +6,7 @@ import { Heart, PlayCircleIcon, StarIcon } from 'lucide-react'
 import timeFormat from '../lib/timeFormat'
 import DateSelect from '../components/DateSelect'
 import MovieCard from '../components/MovieCard'
+import Loading from '../components/Loading'
 
 const MovieDetails = () => {
 
@@ -14,10 +15,10 @@ const MovieDetails = () => {
   const [show, setShow] = useState(null)
 
   const getShow = async () => {
-    const foundShow = dummyShowsData.find(show => show._id === id)
-    if (foundShow) {
+    const Show = dummyShowsData.find(show => show._id === id)
+    if (Show) {
       setShow({
-        movie: foundShow,
+        movie: Show,
         dateTime: dummyDateTimeData
       })
     }
@@ -100,9 +101,9 @@ const MovieDetails = () => {
         transition rounded-md font-medium cursor-pointer'>Show more</button>
        </div>
     </div>
-  ) : (
-    <div>Loading...</div>
-  )
+  ) :  <Loading/>
+  
+  
 }
 
 export default MovieDetails

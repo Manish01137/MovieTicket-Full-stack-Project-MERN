@@ -1,6 +1,7 @@
 import React,{useEffect, useState} from 'react'
 import { dummyBookingData } from '../assets/assets'
 import BlurCircle from '../components/BlurCircle'
+import timeFormat from '../lib/timeFormat'
 
 const MyBookings = () => {
   const currency = import.meta.env.VITE_CURRENCY
@@ -32,7 +33,7 @@ const MyBookings = () => {
               aspect-video h-auto object-cover object-bottom rounded'/>
               <div className='flex flex-col p-4'>
                  <p className='text-lg font-semibold'>{item.show.movie.title}</p>
-                 <p className='text-gray-400 text-sm'>{item.show.movie.runtime}</p>
+                 <p className='text-gray-400 text-sm'>{timeFormat(item.show.movie.runtime)}</p>
                  <p className='text-gray-400 text-sm mt-auto'>{item.show.showDateTime}</p>
               </div>
            </div>

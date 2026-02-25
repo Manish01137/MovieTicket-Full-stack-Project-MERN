@@ -6,7 +6,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { assets, dummyDateTimeData, dummyShowsData } from "../assets/assets";
 import Loading from "../components/Loading";
 import isoTimeFormat from "../lib/isoTimeFormat";
-import { ClockIcon } from "lucide-react";
+
+import { ClockIcon, ArrowRightIcon } from "lucide-react";
 import BlurCircle from "../components/BlurCircle";
 import toast from "react-hot-toast";
 
@@ -181,7 +182,7 @@ const SeatLayout = () => {
         bg-primary hover:bg-primary-dull transition rounded-full font-medium
         cursor-pointer active:scale-95">
           Proceed to Checkout
-          <ArrowRightICon strokeWidth={3} className="w-4 h-4"/>
+          <ArrowRightIcon strokeWidth={3} className="w-4 h-4"/>
         </button>
       </div>
     </div>

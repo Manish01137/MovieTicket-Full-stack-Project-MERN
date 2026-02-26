@@ -6,6 +6,8 @@ import { Menu, Search, TicketPlus, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useClerk, UserButton, useUser } from '@clerk/clerk-react'
 
+const HAS_CLERK = !!import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+
 const navLinks = [
   { name: 'Home', path: '/' },
   { name: 'Movies', path: '/movies' },
@@ -14,12 +16,46 @@ const navLinks = [
   { name: 'Favorites', path: '/favorite' },
 ]
 
+// ── This inner component is ONLY rendered when ClerkProvider is active.
+// ── Keeps hooks safe — they won't run outside the provider context.
+const ClerkAuthSection = () => {
+  const { user } = useUser()
+  const { openSignIn } = useClerk()
+  const navigate = useNavigate()
+
+  return !user ? (
+    <button
+      onClick={openSignIn}
+      className="px-5 py-2 rounded-full bg-primary text-black font-medium
+      hover:bg-primary-dull hover:scale-105 transition-all duration-300"
+    >
+      Login
+    </button>
+  ) : (
+    <UserButton>
+      <UserButton.MenuItems>
+        <UserButton.Action
+          label="My Booking"
+          labelIcon={<TicketPlus width={15} onClick={() => navigate('/my-bookings')} />}
+        />
+      </UserButton.MenuItems>
+    </UserButton>
+  )
+}
+
+// ── Fallback login button when Clerk is not configured.
+const FallbackLoginButton = () => (
+  <button
+    className="px-5 py-2 rounded-full bg-primary text-black font-medium
+    hover:bg-primary-dull hover:scale-105 transition-all duration-300"
+  >
+    Login
+  </button>
+)
+
 const Navbar = () => {
   const [open, setOpen] = useState(false)
 
-  const { user } = useUser()
-  const { openSignIn } = useClerk()   // fixed
-  const navigate = useNavigate()
   return (
     <nav className="fixed top-0 left-0 w-full z-50">
       {/* Glass Background */}
@@ -49,23 +85,8 @@ const Navbar = () => {
           <div className="flex items-center gap-4">
             <Search className="hidden md:block w-5 h-5 text-white/80 hover:text-white cursor-pointer transition" />
 
-            {
-              !user ? (
-                <button
-                  onClick={openSignIn}
-                  className="px-5 py-2 rounded-full bg-primary text-black font-medium
-                  hover:bg-primary-dull hover:scale-105 transition-all duration-300"
-                >
-                  Login
-                </button>
-              ) : (
-                <UserButton>
-                  <UserButton.MenuItems>
-                    <UserButton.Action label="My Booking" labelIcon={<TicketPlus width={15} onClick={()=> navigate('/my-bookings')}/>}/>
-                  </UserButton.MenuItems>
-                </UserButton>
-              )
-            }
+            {/* Only use Clerk when provider is active */}
+            {HAS_CLERK ? <ClerkAuthSection /> : <FallbackLoginButton />}
 
             {/* Mobile Menu Icon */}
             <Menu

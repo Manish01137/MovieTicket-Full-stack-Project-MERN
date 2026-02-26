@@ -14,11 +14,11 @@ import toast from "react-hot-toast";
 const SeatLayout = () => {
 
   const groupRows = [
-    ["A","B"],
-    ["C","D"],
-    ["E","F"],
-    ["G","H"],
-    ["I","J"],
+    ["A", "B"],
+    ["C", "D"],
+    ["E", "F"],
+    ["G", "H"],
+    ["I", "J"],
   ];
 
   const { id, date } = useParams();
@@ -82,11 +82,10 @@ const SeatLayout = () => {
               key={seatId}
               onClick={() => handleSeatClick(seatId)}
               className={`h-8 w-8 rounded border border-primary/60
-              ${
-                selectedSeats.includes(seatId)
+              ${selectedSeats.includes(seatId)
                   ? "bg-primary text-white"
                   : ""
-              }`}
+                }`}
             >
               {seatId}
             </button>
@@ -128,11 +127,10 @@ const SeatLayout = () => {
                 key={item.time}
                 onClick={() => setSelectedTime(item)}
                 className={`flex items-center gap-2 px-6 py-2 w-max rounded-r-md cursor-pointer
-                ${
-                  selectedTime?.time === item.time
+                ${selectedTime?.time === item.time
                     ? "bg-primary text-white"
                     : "hover:bg-primary/20"
-                }`}
+                  }`}
               >
                 <ClockIcon className="w-4 h-4" />
                 <p>{isoTimeFormat(item.time)}</p>
@@ -150,14 +148,14 @@ const SeatLayout = () => {
       {/* SEATS */}
       <div className="relative flex-1 flex flex-col items-center max-md:mt-16">
 
-        <BlurCircle top="-100px" left="-100px"/>
-        <BlurCircle bottom="0" right="0"/>
+        <BlurCircle top="-100px" left="-100px" />
+        <BlurCircle buttom="0" right="0" />
 
         <h1 className="text-2xl font-semibold mb-4">
           Select your Seat
         </h1>
 
-        <img src={assets.screenImage} alt="screen"/>
+        <img src={assets.screenImage} alt="screen" />
         <p className="text-gray-400 text-sm mb-6">
           SCREEN SIDE
         </p>
@@ -178,11 +176,17 @@ const SeatLayout = () => {
 
         </div>
 
-        <button onClick={()=>navigate('/my-bookings')} className="flex items-center gap-1 mt-20 px-10 py-3 text-sm
-        bg-primary hover:bg-primary-dull transition rounded-full font-medium
-        cursor-pointer active:scale-95">
+        <button
+          onClick={() => {
+            if (!selectedTime) return toast('Please select a show timing first')
+            if (selectedSeats.length === 0) return toast('Please select at least one seat')
+            navigate('/my-bookings')
+          }}
+          className="flex items-center gap-1 mt-20 px-10 py-3 text-sm
+          bg-primary hover:bg-primary-dull transition rounded-full font-medium
+          cursor-pointer active:scale-95">
           Proceed to Checkout
-          <ArrowRightIcon strokeWidth={3} className="w-4 h-4"/>
+          <ArrowRightIcon strokeWidth={3} className="w-4 h-4" />
         </button>
       </div>
     </div>

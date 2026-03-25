@@ -36,7 +36,8 @@ const ClerkAuthSection = () => {
       <UserButton.MenuItems>
         <UserButton.Action
           label="My Booking"
-          labelIcon={<TicketPlus width={15} onClick={() => navigate('/my-bookings')} />}
+          labelIcon={<TicketPlus width={15} />}
+          onClick={() => navigate('/my-bookings')}
         />
       </UserButton.MenuItems>
     </UserButton>

@@ -209,7 +209,9 @@ const SeatLayout = () => {
               if (!selectedSeats.length)
                 return toast("Select seats");
 
-              navigate("/my-bookings");
+              navigate("/my-bookings", {
+                state: { seats: selectedSeats, time: selectedTime, showId: id, date }
+              });
             }}
             className="
             mt-16

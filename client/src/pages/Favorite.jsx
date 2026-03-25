@@ -9,7 +9,7 @@ const Favorite = () => {
       
 
       <BlurCircle top="150px" left="0px"/>
-      <BlurCircle buttom="50px" right="50px"/>
+      <BlurCircle bottom="50px" right="50px"/>
       <h1 className='text-2xl font-semibold mb-8'>Your Favorite Movies</h1>
 
       <div className='grid 

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { dummyShowsData } from '../../assets/assets';
 import Title from './Title';
+import { kConverter } from '../../lib/kConverter';
+
 
 const AddShows = () => {
   const currency = import.meta.env.VITE_CURRENCY
@@ -26,7 +28,10 @@ const AddShows = () => {
        <div className="group flex flex-wrap gap-4 mt-4 w-max">
           {nowPlayingMovies.map((movie)=>(
              <div key={movie.id} className={`relative max-w-40 cursor-pointer
-             group-hover:not-hover:opacity-40 hover:-translate-y-1 transition duration-300`}>
+             group-hover:not-hover:opacity-40 hover:-translate-y-1 transition duration-300`}
+             onClick={()=>setSelectedMovie(Movie._id)}>
+              
+      
               <div className="relative rounded-lg overflow-hidden">
                 <img src={movie.poster_path} alt="" className="w-full 
                 object-cover brigtness-90" />
@@ -40,16 +45,37 @@ const AddShows = () => {
 
                   </p>
                  <p className="text-gray-300">
-                   {movie.vote_count}votes
+                   {kConverter(movie.vote_count)}votes
                  </p>
                 </div>
               </div>
+
+              {slectedMovie === movie.id && (
+                <div className="absolute top-2 right flex items-center
+                justify-center bg-primary h-6 w-6 rounded">
+                  <CheckIcon className="w-4 h-4 text-white" strokeWidth={2.5}/>
+
+                </div>
+              )}
 
              </div>
           ))}
 
        </div>
      </div>
+     // show price Input
+    <div className="mt-8">
+      <label className="block text-sm font-medium mb-2">Show Price</label>
+      <div className="inline-flex items-center gap-2 border
+      border-gray-600 px-3 py-2 rounded-md">
+        <p className="text-gray-400 text-sm">{currency}</p>
+        <input min={0} type="number" value={showPrice} onChange={(e) =>
+          setShowPrice(e.target.value)} placeholder="Enter show Price"
+          className="outline-none"
+       />
+
+      </div>
+    </div>
     </>
   ) : <Loading/>
 }
